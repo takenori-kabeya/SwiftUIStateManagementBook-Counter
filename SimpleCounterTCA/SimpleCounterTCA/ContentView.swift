@@ -11,6 +11,7 @@ struct CounterFeature {
     enum Action {
         case decrementButtonTapped
         case incrementButtonTapped
+        case incrementDelayCompleted
     }
     
     var body: some Reducer<State, Action> {
@@ -20,6 +21,11 @@ struct CounterFeature {
                 state.counter -= 1
                 return .none
             case .incrementButtonTapped:
+                return .run { send in
+                    try await Task.sleep(for: .seconds(1))
+                    await send(.incrementDelayCompleted)
+                }
+            case .incrementDelayCompleted:
                 state.counter += 1
                 return .none
             }

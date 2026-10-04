@@ -346,6 +346,8 @@
 				kind = exactVersion;
 				version = 1.26.1;
 			};
+			traits = (
+			);
 		};
 /* End XCRemoteSwiftPackageReference section */
 

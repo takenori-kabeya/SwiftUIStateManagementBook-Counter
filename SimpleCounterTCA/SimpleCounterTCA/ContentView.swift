@@ -2,6 +2,33 @@ import SwiftUI
 import ComposableArchitecture
 
 @Reducer
+struct ParentFeature {
+    @ObservableState
+    struct State {
+        var text: String = ""
+        var counter: CounterFeature.State = .init()
+    }
+    
+    enum Action {
+        case resetButtonTapped
+        case textChanged(String)
+    }
+    
+    var body: some Reducer<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case .resetButtonTapped:
+                state.counter.counter = 5
+                return .none
+            case let .textChanged(newText):
+                state.text = newText
+                return .none
+            }
+        }
+    }
+}
+
+@Reducer
 struct CounterFeature {
     @ObservableState
     struct State {

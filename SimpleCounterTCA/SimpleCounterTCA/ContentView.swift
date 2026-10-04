@@ -57,7 +57,7 @@ struct CounterFeature {
                 return .run { send in
                     try await Task.sleep(for: .seconds(1))
                     await send(.incrementDelayCompleted)
-                }
+                }.cancellable(id: 1, cancelInFlight: true)
             case .incrementDelayCompleted:
                 state.counter += 1
                 return .none

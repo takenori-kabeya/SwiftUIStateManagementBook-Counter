@@ -10,13 +10,19 @@ struct ParentFeature {
     }
     
     enum Action {
+        case counter(CounterFeature.Action)
         case resetButtonTapped
         case textChanged(String)
     }
     
     var body: some Reducer<State, Action> {
+        Scope(state: \.counter, action: \.counter) {
+            CounterFeature()
+        }
         Reduce { state, action in
             switch action {
+            case .counter:
+                return .none
             case .resetButtonTapped:
                 state.counter.counter = 5
                 return .none

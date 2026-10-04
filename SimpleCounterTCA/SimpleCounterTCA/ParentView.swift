@@ -22,9 +22,7 @@ struct ParentView: View {
                 })
             }
             .font(.largeTitle)
-            ContentView(store: Store(initialState: store.counter) {
-                CounterFeature()
-            })
+            ContentView(store: store.scope(state: \.counter, action: \.counter))
             .padding()
             .background(.mint)
         }

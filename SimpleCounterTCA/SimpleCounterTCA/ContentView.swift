@@ -1,0 +1,59 @@
+import SwiftUI
+import ComposableArchitecture
+
+@Reducer
+struct CounterFeature {
+    @ObservableState
+    struct State {
+        var counter: Int = 0
+    }
+    
+    enum Action {
+        case decrementButtonTapped
+        case incrementButtonTapped
+    }
+    
+    var body: some Reducer<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case .decrementButtonTapped:
+                state.counter -= 1
+                return .none
+            case .incrementButtonTapped:
+                state.counter += 1
+                return .none
+            }
+        }
+    }
+}
+
+struct ContentView: View {
+    var store: StoreOf<CounterFeature>
+    
+    var body: some View {
+        VStack {
+            Text("Value: \(store.counter)")
+                .padding()
+            HStack {
+                Button(action: {
+                    store.send(.decrementButtonTapped)
+                }, label: {
+                    Image(systemName: "minus.square.fill")
+                })
+                Button(action: {
+                    store.send(.incrementButtonTapped)
+                }, label: {
+                    Image(systemName: "plus.square.fill")
+                })
+            }
+        }
+        .font(.largeTitle)
+    }
+}
+
+#Preview {
+    ContentView(store: Store(initialState: CounterFeature.State()) {
+        CounterFeature()
+    })
+}
+
